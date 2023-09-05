@@ -27,7 +27,7 @@ jobs:
       run: npx playwright test
 
     - name: Publish HTML Report
-    - uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v3
       if: always()
       with:
         name: playwright-report
