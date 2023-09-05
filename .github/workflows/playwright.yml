@@ -5,20 +5,28 @@ on:
   pull_request:
     branches: [ main, master ]
 jobs:
-  test:
+  e2e-tests:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - name: Getting the code
+      uses: actions/checkout@v3
+
+    - name: Install Node 18
     - uses: actions/setup-node@v3
       with:
         node-version: 18
+
     - name: Install dependencies
       run: npm install
+
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-    - name: Run Playwright tests
+
+    - name: Run E2E tests
       run: npx playwright test
+
+    - name: Publish HTML Report
     - uses: actions/upload-artifact@v3
       if: always()
       with:
