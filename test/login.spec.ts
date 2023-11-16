@@ -1,4 +1,5 @@
 import { test, expect, Page } from '@playwright/test';
+import { only } from 'node:test';
 
 test('usuário obrigatório', async ({ page }) => {
   await login(page, '', 'senha123')
@@ -24,6 +25,15 @@ test('com sucesso', async ({ page }) => {
   await login(page,'qa', 'xperience')
   await modal(page, 'Suas credenciais são válidas :)')
 })
+
+test('Compra Pix',async ({ page }) => {
+  await page.getByRole('button', { name: 'Continuar e fechar' }).click();
+})
+
+
+
+
+
 
 const toast = async (page: Page, message: string) => {
   const target = page.locator('div[role=status]')

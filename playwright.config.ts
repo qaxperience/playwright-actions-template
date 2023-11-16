@@ -28,7 +28,7 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
-    baseURL: 'https://loginxp.vercel.app',
+    baseURL: 'https://www.tokstok.com.br/',
     screenshot: 'on'
   },
 
