@@ -7,5 +7,13 @@ results/*.xml
 /playwright-report/
 /playwright/.cache/
 
+#claude 
+.claude/
+CLAUDE.md
+
 # Playwright
 /blob-report/
+
+# Playwright
+/playwright/.auth/
+/.playwright-mcp/

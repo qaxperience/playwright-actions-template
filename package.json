@@ -1,16 +1,20 @@
 {
-  "name": "login-xp-playwright",
+  "name": "playwright-actions",
   "version": "1.0.0",
-  "description": "Projeto de testes de login com Playwright",
-  "main": "index.js",
-  "directories": {
-    "test": "tests"
+  "description": "CI-ready Playwright E2E test automation with GitHub Actions, multi-browser execution, HTML reports, traces, screenshots, and artifacts.",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:chromium": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:webkit": "playwright test --project=webkit",
+    "report": "playwright show-report"
   },
-  "scripts": {},
-  "author": "Fernando Papito",
+  "author": "Marcelino Soares",
   "license": "MIT",
   "devDependencies": {
-    "@playwright/test": "^1.50.1",
+    "@playwright/test": "^1.61.1",
     "@types/node": "^22.13.8"
   }
 }
