@@ -9,6 +9,8 @@
     "test:chromium": "playwright test --project=chromium",
     "test:firefox": "playwright test --project=firefox",
     "test:webkit": "playwright test --project=webkit",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:negative": "playwright test --grep @negative",
     "report": "playwright show-report",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",

@@ -60,6 +60,16 @@ Assertion strings are in Portuguese because they reflect the app's actual UI cop
 | 5   | Wrong password      | Toast: "Oops! Credenciais inválidas :(" _(Invalid credentials)_   |
 | 6   | Valid credentials   | Modal: "Suas credenciais são válidas :)" _(Valid credentials)_    |
 
+## Design decisions
+
+- **Page Object Model** keeps selectors and user actions isolated from test specs — specs read like scenarios, not implementation.
+- **Custom fixtures** make dependencies explicit and eliminate boilerplate; `loginPage` and `loginData` are injected via `test.extend()`.
+- **Typed test data** centralises credentials and expected messages, so a UI copy change requires a one-line edit.
+- **Test tags** (`@smoke`, `@negative`, `@positive`) allow targeted runs without maintaining separate spec files.
+- **CI pipeline order** — quality gate → smoke → full browser matrix — fails fast: static errors are caught before browser time is spent, and smoke catches regressions before the full suite runs.
+- **Multi-browser matrix** (`chromium`, `firefox`, `webkit`) provides cross-engine confidence in parallel CI jobs.
+- **Failure evidence** — screenshots, videos, and traces on retry, uploaded as artifacts — gives actionable debugging context without re-running locally.
+
 ## Running locally
 
 ```bash
@@ -74,6 +84,10 @@ npm test
 npm run test:chromium
 npm run test:firefox
 npm run test:webkit
+
+# Run by tag
+npm run test:smoke
+npm run test:negative
 
 # Run in headed mode (visible browser)
 npm run test:headed
@@ -104,12 +118,11 @@ BASE_URL=https://staging.example.com npm test
 
 The GitHub Actions workflow runs on every push and pull request to `main`:
 
-1. **Quality job** — Checkout → Setup Node → `npm ci` → typecheck → lint → format check
-2. **E2E matrix** (runs in parallel after quality passes):
-   - Chromium: install browser → run tests → upload artifacts
-   - Firefox: install browser → run tests → upload artifacts
-   - WebKit: install browser → run tests → upload artifacts
-3. Each browser uploads its own `playwright-report-{browser}` and `test-results-{browser}` artifacts — retained 30 days
+1. **Quality job** — typecheck → lint → format check
+2. **Smoke job** (runs after quality) — `@smoke` tests on Chromium only; fast gate before full regression
+3. **E2E matrix** (runs after smoke, in parallel) — full suite across Chromium, Firefox, and WebKit
+4. Each browser uploads its own `playwright-report-{browser}` and `test-results-{browser}` artifacts — retained 30 days
+5. Each job appends a summary to the GitHub Step Summary for at-a-glance results
 
 ## License
 

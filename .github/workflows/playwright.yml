@@ -30,8 +30,37 @@ jobs:
       - name: Format check
         run: npm run format:check
 
-  e2e-tests:
+  smoke:
     needs: quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run smoke tests
+        run: npm run test:smoke -- --project=chromium
+
+      - name: Smoke summary
+        if: always()
+        run: |
+          echo "## Smoke Tests" >> $GITHUB_STEP_SUMMARY
+          echo "- Browser: Chromium" >> $GITHUB_STEP_SUMMARY
+          echo "- Tag: @smoke" >> $GITHUB_STEP_SUMMARY
+
+  e2e-tests:
+    needs: smoke
     timeout-minutes: 60
     runs-on: ubuntu-latest
     strategy:
@@ -56,6 +85,12 @@ jobs:
 
       - name: Run E2E tests (${{ matrix.browser }})
         run: npm test -- --project=${{ matrix.browser }}
+
+      - name: Add test summary
+        if: always()
+        run: |
+          echo "## E2E Tests — ${{ matrix.browser }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Reports uploaded as artifacts" >> $GITHUB_STEP_SUMMARY
 
       - name: Upload HTML report (${{ matrix.browser }})
         uses: actions/upload-artifact@v4

@@ -1,17 +1,23 @@
 import { test } from './fixtures';
 
 test.describe('Login', () => {
-  test('should show validation when username is empty', async ({ loginPage, loginData }) => {
+  test('should show validation when username is empty @negative @smoke', async ({
+    loginPage,
+    loginData,
+  }) => {
     await loginPage.login(loginData.emptyUser.user, loginData.emptyUser.pass);
     await loginPage.expectToastMessage(loginData.messages.emptyUser);
   });
 
-  test('should show validation when password is empty', async ({ loginPage, loginData }) => {
+  test('should show validation when password is empty @negative', async ({
+    loginPage,
+    loginData,
+  }) => {
     await loginPage.login(loginData.emptyPass.user, loginData.emptyPass.pass);
     await loginPage.expectToastMessage(loginData.messages.emptyPass);
   });
 
-  test('should prioritize username validation when both fields are empty', async ({
+  test('should prioritize username validation when both fields are empty @negative', async ({
     loginPage,
     loginData,
   }) => {
@@ -19,17 +25,23 @@ test.describe('Login', () => {
     await loginPage.expectToastMessage(loginData.messages.emptyUser);
   });
 
-  test('should reject non-existing user', async ({ loginPage, loginData }) => {
+  test('should reject non-existing user @negative', async ({ loginPage, loginData }) => {
     await loginPage.login(loginData.invalidUser.user, loginData.invalidUser.pass);
     await loginPage.expectToastMessage(loginData.messages.invalidCredentials);
   });
 
-  test('should reject valid user with wrong password', async ({ loginPage, loginData }) => {
+  test('should reject valid user with wrong password @negative', async ({
+    loginPage,
+    loginData,
+  }) => {
     await loginPage.login(loginData.wrongPass.user, loginData.wrongPass.pass);
     await loginPage.expectToastMessage(loginData.messages.invalidCredentials);
   });
 
-  test('should show success modal for valid credentials', async ({ loginPage, loginData }) => {
+  test('should show success modal for valid credentials @positive @smoke', async ({
+    loginPage,
+    loginData,
+  }) => {
     await loginPage.login(loginData.valid.user, loginData.valid.pass);
     await loginPage.expectSuccessModal(loginData.messages.success);
   });
