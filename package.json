@@ -1,14 +1,31 @@
 {
-  "name": "login-xp-playwright",
+  "name": "playwright-actions",
   "version": "1.0.0",
-  "description": "Projeto de testes de login com Playwright",
-  "main": "index.js",
-  "directories": {
-    "test": "tests"
-  },
+  "description": "CI-ready Playwright E2E test automation with GitHub Actions, multi-browser execution, HTML reports, traces, screenshots, and artifacts.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:chromium": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:webkit": "playwright test --project=webkit",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:negative": "playwright test --grep @negative",
+    "report": "playwright show-report",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
-  "author": "Fernando Papito",
-  "license": "MIT"
+  "author": "Marcelino Soares",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@types/node": "^22.13.8",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.9.4",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.63.0"
+  }
 }
