@@ -11,7 +11,10 @@ test.describe('Login', () => {
     await loginPage.expectToastMessage(loginData.messages.emptyPass);
   });
 
-  test('should prioritize username validation when both fields are empty', async ({ loginPage, loginData }) => {
+  test('should prioritize username validation when both fields are empty', async ({
+    loginPage,
+    loginData,
+  }) => {
     await loginPage.login(loginData.emptyBoth.user, loginData.emptyBoth.pass);
     await loginPage.expectToastMessage(loginData.messages.emptyUser);
   });

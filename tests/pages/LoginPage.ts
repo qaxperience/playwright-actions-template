@@ -1,5 +1,4 @@
 import { expect, Locator, Page } from '@playwright/test';
-import { clearAndFill, navigateTo, submitForm } from '../utils/actions';
 
 export class LoginPage {
   private readonly username: Locator;
@@ -15,26 +14,14 @@ export class LoginPage {
   }
 
   async goto() {
-    await navigateTo(this.page);
-  }
-
-  async fillUsername(value: string) {
-    await clearAndFill(this.username, value);
-  }
-
-  async fillPassword(value: string) {
-    await clearAndFill(this.password, value);
-  }
-
-  async submit() {
-    await submitForm(this.page);
+    await this.page.goto('/');
   }
 
   async login(user: string, pass: string) {
     await this.goto();
-    await this.fillUsername(user);
-    await this.fillPassword(pass);
-    await this.submit();
+    await this.username.fill(user);
+    await this.password.fill(pass);
+    await this.page.getByRole('button', { name: 'Entrar' }).click();
   }
 
   async expectToastMessage(message: string) {
