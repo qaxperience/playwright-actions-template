@@ -1,13 +1,15 @@
-# Playwright Actions
+# Playwright E2E Automation with GitHub Actions
 
-CI-ready Playwright E2E test automation with GitHub Actions, multi-browser execution, HTML reports, JUnit output, traces, screenshots, and artifacts.
+> CI-ready Playwright test automation framework with Page Object Model, custom fixtures, TypeScript strict mode, multi-browser execution, traces, screenshots, videos, HTML reports, JUnit output, and GitHub Actions artifacts.
 
 ## What this project demonstrates
 
 - **E2E testing with Playwright + TypeScript** — login validation with positive and negative flows
-- **Page Object Model** — `LoginPage` encapsulates selectors and actions, keeping specs clean
+- **Page Object Model** — `LoginPage` encapsulates locators, actions, and assertions, keeping specs clean
 - **Custom fixtures** — `loginPage` and `loginData` injected via `test.extend()`, no boilerplate in specs
-- **Custom helpers** — reusable action utilities (`clearAndFill`, `submitForm`) and custom `expect` matchers (`toShowToast`, `toShowModal`)
+- **Typed test data** — credentials and expected messages isolated in `tests/data/loginData.ts`
+- **Reusable action helpers** — `clearAndFill(locator, value)` and `submitForm` in `tests/utils/actions.ts`
+- **TypeScript strict mode** — `tsconfig.json` with `strict: true`; `npm run typecheck` runs before tests in CI
 - **Multi-browser execution** — Chromium, Firefox, and WebKit in the same pipeline run
 - **GitHub Actions CI/CD** — automated pipeline triggered on push and PR to `main`
 - **Failure evidence** — screenshots, videos, and traces on retry, automatically uploaded as artifacts
@@ -24,15 +26,17 @@ CI-ready Playwright E2E test automation with GitHub Actions, multi-browser execu
 
 ```text
 tests/
+├── data/
+│   └── loginData.ts      # Typed test data — credentials and expected messages
 ├── fixtures/
 │   └── index.ts          # Custom test with loginPage + loginData fixtures
 ├── pages/
-│   └── LoginPage.ts      # Page Object — selectors, actions, assertions
+│   └── LoginPage.ts      # Page Object — locators, actions, assertions
 ├── utils/
-│   ├── actions.ts        # Reusable action helpers (clearAndFill, submitForm)
-│   └── matchers.ts       # Custom expect matchers (toShowToast, toShowModal)
+│   └── actions.ts        # Reusable action helpers (clearAndFill, submitForm)
 └── login.spec.ts         # Test specs
 
+tsconfig.json             # TypeScript configuration (strict mode)
 playwright.config.ts      # Playwright configuration
 .github/workflows/
 └── playwright.yml        # CI pipeline
@@ -74,6 +78,9 @@ npm run test:ui
 
 # View HTML report after a run
 npm run report
+
+# Type-check without running tests
+npm run typecheck
 ```
 
 > Override the target URL without touching config:
@@ -88,5 +95,10 @@ The GitHub Actions workflow runs on every push and pull request to `main`:
 
 1. Checkout → Setup Node (with npm cache) → `npm ci`
 2. Install Playwright browsers with system dependencies
-3. Run the full suite across Chromium, Firefox, and WebKit
-4. Upload `playwright-report/` (HTML) and `test-results/` (JUnit + traces) as artifacts — retained 30 days
+3. Run TypeScript type check (`npm run typecheck`)
+4. Run the full suite across Chromium, Firefox, and WebKit
+5. Upload `playwright-report/` (HTML) and `test-results/` (JUnit + traces) as artifacts — retained 30 days
+
+## License
+
+[MIT](LICENSE)

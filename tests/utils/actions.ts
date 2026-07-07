@@ -1,7 +1,6 @@
-import { Page } from '@playwright/test';
+import { Locator, Page } from '@playwright/test';
 
-export const clearAndFill = async (page: Page, selector: string, value: string) => {
-  const locator = page.locator(selector);
+export const clearAndFill = async (locator: Locator, value: string) => {
   await locator.clear();
   await locator.fill(value);
 };
