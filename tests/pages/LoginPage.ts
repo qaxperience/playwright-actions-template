@@ -1,11 +1,14 @@
-import { expect, Page } from '@playwright/test';
+import { expect, Locator, Page } from '@playwright/test';
 import { clearAndFill, navigateTo, submitForm } from '../utils/actions';
 
 export class LoginPage {
-  private readonly toast = this.page.locator('div[role=status]');
-  private readonly modal = this.page.locator('.swal2-html-container');
+  private readonly toast: Locator;
+  private readonly modal: Locator;
 
-  constructor(private readonly page: Page) {}
+  constructor(private readonly page: Page) {
+    this.toast = page.locator('div[role=status]');
+    this.modal = page.locator('.swal2-html-container');
+  }
 
   async goto() {
     await navigateTo(this.page);
@@ -25,8 +28,8 @@ export class LoginPage {
 
   async login(user: string, pass: string) {
     await this.goto();
-    if (user) await this.fillUsername(user);
-    if (pass) await this.fillPassword(pass);
+    await this.fillUsername(user);
+    await this.fillPassword(pass);
     await this.submit();
   }
 

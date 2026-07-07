@@ -9,12 +9,14 @@
     "test:chromium": "playwright test --project=chromium",
     "test:firefox": "playwright test --project=firefox",
     "test:webkit": "playwright test --project=webkit",
-    "report": "playwright show-report"
+    "report": "playwright show-report",
+    "typecheck": "tsc --noEmit"
   },
   "author": "Marcelino Soares",
   "license": "MIT",
   "devDependencies": {
     "@playwright/test": "^1.61.1",
-    "@types/node": "^22.13.8"
+    "@types/node": "^22.13.8",
+    "typescript": "^6.0.3"
   }
 }
