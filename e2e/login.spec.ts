@@ -16,6 +16,12 @@ test('usuário não existe', async ({ page }) => {
   await toast(page, 'Oops! Credenciais incorretas :(')
 })
 
+test('tarefa 2 - KAN', async ({ page }) => {
+  await login(page,'teste', 'teste')
+  // await toast(page, 'Oops! Credenciais inválidas :(')
+  await toast(page, 'Oops! Credenciais incorretas :(')
+})
+
 test('senha incorreta', async ({ page }) => {
   await login(page,'qa', 'teste')
   await toast(page, 'Oops! Credenciais inválidas :(')
